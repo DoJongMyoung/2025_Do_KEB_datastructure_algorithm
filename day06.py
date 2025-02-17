@@ -1,11 +1,3 @@
-def sum(num):
-    #O(n) 시간복잡도  on
-    sum_num = 0
-    for i in range(1, num+1 ,1):
-        sum_num = sum_num + i
-
-    return sum_num
-
-
+#시간 복잡도 -> 상수
 n = int(input())
-print(sum(n))
+print(n*(n + 1) // 2)
