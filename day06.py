@@ -1,8 +1,25 @@
+# list = [20,30,40,40,50,80,80,80,90]
+#
+# print(list)
+#
+# list.pop(4)
+#
+# print(list)
+#
+# list.remove(80)
+#
+# print(list)
 
-a = [9 ,47 ,88 , -2]
+students = []
 
-print(id(a[1]), id([3]))
-#C나 Cpp에서
-# int a[4] = [9, -4, 78, 66]
-#cout << &a[1] << "/" << &a[3] 이런식으로 출력해보면 정확히 둘의 주소가 8차이 남.
+try:
+    file = input("File name : ")
+    fp = open(file, 'r')
+    readme_list = fp.readlines()
+    rls = readme_list[0].split("_")
+    print(readme_list)
+    print(rls)
+    fp.close()
 
+except FileNotFoundError as err: #여기서 err은 에러 메세지를 받는 변수명 , 다른거 써도 무관
+    print(f"{file} is not exist . {err}")
