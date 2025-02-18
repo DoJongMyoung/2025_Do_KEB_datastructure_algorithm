@@ -1,18 +1,12 @@
-#is_queue_full을 건드려서 정상작동을 시켜라.
-#front와 rear가 이미 커져서 앞쪽이 비어있는 상태가 있을 수 있음. -> 꽉차있는 상태의 조건 생각해보기
+#for문을 사용함으로써 시간 복잡도가 O(n)이 되어버린 문제 고쳐보기.
+#원형 링크드 리스트 <- 지하철 2호선
+#공간을 하나 사용하게 됨.
 
 def is_queue_full() :
     global size, queue, front, rear
-    if rear != (size - 1):
-        return False
-    elif (front == -1) and (rear == size - 1):
+    if (rear + 1) % size == front: # 가득찬 상태와 비어있는 상태를 구분하기 위해 메모리를 조금 손해보고 이런 조건을 사용함.
         return True
     else:
-        for i in range(front + 1 , size):
-            queue[i - 1] = queue[i]
-            queue[i] = None
-        front = front - 1
-        rear = rear - 1
         return False
 
 def is_queue_empty() :
@@ -26,7 +20,7 @@ def en_queue(data) :
     if is_queue_full():
         print("큐가 꽉 찼습니다.")
         return
-    rear += 1
+    rear = (rear + 1) % size
     queue[rear] = data
 
 def de_queue() :
@@ -34,7 +28,7 @@ def de_queue() :
     if is_queue_empty():
         print("큐가 비었습니다.")
         return None
-    front += 1
+    front = (front + 1) % size
     data = queue[front]
     queue[front] = None
     return data
@@ -44,12 +38,11 @@ def peek() :
     if is_queue_empty():
         print("큐가 비었습니다.")
         return None
-    return queue[front+1]
-
+    return queue[(front + 1) % size]
 
 size = int(input("큐의 크기를 입력 : "))
 queue = [None for _ in range(size)]
-front = rear = -1
+front = rear = 0 # 모듈러 연산을 위해 0으로 시작하는게 바람직함.
 
 if __name__ == "__main__" :
     while True:
