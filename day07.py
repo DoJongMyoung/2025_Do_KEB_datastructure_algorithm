@@ -3,6 +3,7 @@ class Node:
         self.data = data
         self.next = next
 
+
 class Queue:
     def __init__(self):
         self.front = None
@@ -17,16 +18,17 @@ class Queue:
             self.rear = node
         else:
             self.rear.next = node
-            self.rear = node # increase rear
+            self.rear = node  # increase rear
+
 
     def dequeue(self):
         if self.front is None:
-            raise IndexError('dequeue from empty queue') # 인덱스 에러 발생시 출력할 메세지
+            raise IndexError('dequeue from empty queue')
         self._size = self._size - 1
-        temp = self.front #backup
-        self.front = self.front.next #update
+        temp = self.front  # backup
+        self.front = self.front.next  # update
         if self.front is None:
-            self.rear = None
+            self.real = None
         return temp.data
 
 
@@ -40,5 +42,5 @@ if __name__ == "__main__":
     q.enqueue(-11)
     q.enqueue(8)
     print(q.size())
-    print(q.dequeue() # 먼저 들어간게 출력됨
+    print(q.dequeue())
     print(q.size())
