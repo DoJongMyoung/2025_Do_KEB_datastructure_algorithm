@@ -1,30 +1,71 @@
-class Node:
-    def __init__(self, data, next=None):
-        self.data = data
-        self.next = next
+#is_queue_full을 건드려서 정상작동을 시켜라.
+#front와 rear가 이미 커져서 앞쪽이 비어있는 상태가 있을 수 있음. -> 꽉차있는 상태의 조건 생각해보기
+
+def is_queue_full() :
+    global size, queue, front, rear
+    if rear != (size - 1):
+        return False
+    elif (front == -1) and (rear == size - 1):
+        return True
+    else:
+        for i in range(front + 1 , size):
+            queue[i - 1] = queue[i]
+            queue[i] = None
+        front = front - 1
+        rear = rear - 1
+        return False
+
+def is_queue_empty() :
+    if front == rear:
+        return True
+    else :
+        return False
+
+def en_queue(data) :
+    global size, queue, front, rear
+    if is_queue_full():
+        print("큐가 꽉 찼습니다.")
+        return
+    rear += 1
+    queue[rear] = data
+
+def de_queue() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    front += 1
+    data = queue[front]
+    queue[front] = None
+    return data
+
+def peek() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    return queue[front+1]
 
 
-class Queue:
-    def __init__(self):
-        self.s1 = []
-        self.s2 = []
+size = int(input("큐의 크기를 입력 : "))
+queue = [None for _ in range(size)]
+front = rear = -1
 
-    def enqueue(self, data):
-        while len(self.s1) != 0:
-            self.s2.append(self.s1.pop())
-        self.s1.append(data)
-        while len(self.s2) != 0:
-            self.s1.append(self.s2.pop())
-
-    def dequeue(self):
-        if len(self.s1) == 0:
-            raise Exception("Cannot pop from empty queue")
-        return self.s1.pop()
-
-if __name__ == "__main__":
-    q = Queue()
-    q.enqueue(7)
-    q.enqueue(-11)
-    q.enqueue(8)
-    for _ in range(3):
-        print(q.dequeue())
+if __name__ == "__main__" :
+    while True:
+        menu = input("삽입(E)/삭제(D)/확인(P)/종료(X) : ")
+        if menu == 'X' or menu == 'x':
+            break
+        elif menu== 'E' or menu == 'e' :
+            data = input("입력할 데이터 : ")
+            en_queue(data)
+            print(queue)
+        elif menu== 'D' or menu == 'd' :
+            print("삭제된 데이터 : ", de_queue())
+            print(queue)
+        elif menu== 'P' or menu == 'p' :
+            print("확인된 데이터 : ", peek())
+            print(queue)
+        else:
+            print("입력이 잘못됨")
+    print("프로그램 종료!")
