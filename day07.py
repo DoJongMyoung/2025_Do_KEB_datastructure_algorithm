@@ -18,9 +18,19 @@ class LinkedList:
 
         current.next = Node(data)
 
+    def __str__(self):
+        node = self.head
+        while node is not None:
+            print(node.data)
+            node = node.next
+        return "end"
 
-if __name__ == "main":
+
+
+if __name__ == "__main__":
     l = LinkedList()
     l.append(7)
     l.append(-11)
     l.append(8)
+    print(l)
+    # print(l) <-  __str__ 없을때 이렇게 하면 주소가 나옴
