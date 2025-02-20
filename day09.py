@@ -1,5 +1,7 @@
 #Assignment
 # v4.4) v4.3 버전의 출력방식을 너비 우선 탐색으로 수정하시오 .
+from collections import deque
+
 
 class TreeNode:
 	def __init__(self):
@@ -33,13 +35,28 @@ def search(root, value):
     return None
 
 
-def post_order(node):
-    if node is None:
-        return
-    post_order(node.left)
-    post_order(node.right)
-    print(f"{node.data} ", end='')
+# def post_order(node):
+#     if node is None:
+#         return
+#     post_order(node.left)
+#     post_order(node.right)
+#     print(f"{node.data} ", end='')
 
+def bfs(root):
+	if root is None: #노드가 비어있으면 함수 종료
+		return
+
+	#노드가 비어 있지 않은 경우
+	# print([root]) <- [root]형태로 쓰면 iterable한 형태로 root 주소를 queue에 저장 할 수 있음
+	queue = deque([root])  # 시작 노드를 큐에 추가
+	while queue:
+		node = queue.popleft()  # 큐에서 노드를 꺼냄
+		print(f"{node.data} ", end="")  # 현재 노드 출력
+
+		if node.left:
+			queue.append(node.left)  # 왼쪽 자식 노드가 있으면 큐에 추가
+		if node.right:
+			queue.append(node.right)  # 오른쪽 자식 노드가 있으면 큐에 추가
 
 def delete(root, value):
     if root is None:
@@ -80,7 +97,7 @@ if __name__ == "__main__":
         print("1. 값 삽입")
         print("2. 값 삭제")
         print("3. 값 찾기")
-        print("4. 트리 확인 (후위 오더)")
+        print("4. 트리 확인 (너비 우선 탐색)")
         print("5. 종료")
         choice = input("원하는 작업을 선택하세요: ")
         if choice == '1':
@@ -101,7 +118,7 @@ if __name__ == "__main__":
             else:
                 print(f"{value}이(가) 존재하지 않습니다.")
         elif choice == '4':
-            post_order(root)
+            bfs(root)
         elif choice == '5':
             print("프로그램을 종료합니다.")
             break
