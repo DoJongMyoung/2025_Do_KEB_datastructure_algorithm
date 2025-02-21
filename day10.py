@@ -39,35 +39,31 @@ def bubble_sort(l):
 
 def quick_sort(l):
     n = len(l)
-    if n <= 1:
-        return l
-    pivot = l[n//2] # pivot은 중앙값에 해당
-    left, right = list(), list()
+    if n<=1: return l
+    pivot = l[n//2]
+    left, mid, right = list(), list(), list()
 
-    for i in l :
+    for i in l:
         if i < pivot:
             left.append(i)
         elif i > pivot:
             right.append(i)
+        else:
+            mid.append(i)
 
-    return quick_sort(left) + [pivot] + quick_sort(right)
+    return quick_sort(left)+mid+quick_sort(right)
 
+
+# lists = [4, 55, 55, 7, 55, 9, 11]
+# print(quick_sort(lists))
 
 lists1 = [random.randint(1, 100000) for _ in range(10000)]
 lists2 = lists1.copy()
 lists3 = lists1.copy()
-
 bubble_sort(lists1)
 insertion_sort(lists2)
 
-
-start = time.time()
+s = time.time()
 quick_sort(lists3)
-end = time.time()
-
-print(f"실행 시간 : {start - end}")
-
-# print(bubble_sort([33, 8, -11, 9, 1]))
-# print(bubble_sort([13, 15, 20, 99, 100]))
-# print(insertion_sort([33, 8, -11, 9, 1]))
-# print(insertion_sort([13, 15, 20, 99, 100]))
+e = time.time()
+print(f'실행시간 : {e - s}초')
