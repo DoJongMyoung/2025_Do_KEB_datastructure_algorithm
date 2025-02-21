@@ -1,69 +1,29 @@
-import time
-import random
 
-def time_decorator(func):
-    def wrapper(*arg):
-        s = time.time()
-        r = func(*arg)
-        e = time.time()
-        print(f'실행시간 : {e - s}초')
-        return r
-    return wrapper
+def Josephus(n, k):
+    array = [] # 1부터 n까지의 리스트 생성
+    for i in range(n):
+        array.append(i + 1)
 
+    result = [] # 제거된 사람들 저장할 리스트
 
-@time_decorator
-def insertion_sort(l):
-    for i in range(1, len(l)):
-        value = l[i]
-        while i > 0 and l[i-1] > value:
-            l[i] = l[i-1]
-            i = i - 1
-            #print(i, end=' ')
-        l[i] = value
-    return l
+    index = 0 # 시작 인덱스 설정
 
+    # 배열이 빌 때까지 반복
+    while len(array) > 0:
+        index = index + (k - 1) # k번째 사람을 찾기 위해 (k-1)번의 인덱스 이동
 
-@time_decorator
-def bubble_sort(l):
-    for i in range(len(l) - 1):
-        no_swap = True
-        for j in range(len(l) - 1 - i):
-            if l[j] > l[j+1]:
-                l[j], l[j + 1] = l[j+1], l[j]
-                no_swap = False
-                #print(j, end=' ')
-        if no_swap:
-            return l
-    return l
+        index = index % len(array) # 모듈러 연산
 
+        removed_value = array.pop(index)
+        result.append(removed_value)
 
-def quick_sort(l):
-    n = len(l)
-    if n<=1: return l
-    pivot = l[n//2]
-    left, mid, right = list(), list(), list()
+    return result
 
-    for i in l:
-        if i < pivot:
-            left.append(i)
-        elif i > pivot:
-            right.append(i)
-        else:
-            mid.append(i)
+n, k = map(int, input().split())
 
-    return quick_sort(left)+mid+quick_sort(right)
+# 함수 실행 후 결과 저장
+result = Josephus(n, k)
 
+# 백준 스타일 출력
+print("<" + ", ".join(str(x) for x in result) + ">")
 
-# lists = [4, 55, 55, 7, 55, 9, 11]
-# print(quick_sort(lists))
-
-lists1 = [random.randint(1, 100000) for _ in range(10000)]
-lists2 = lists1.copy()
-lists3 = lists1.copy()
-bubble_sort(lists1)
-insertion_sort(lists2)
-
-s = time.time()
-quick_sort(lists3)
-e = time.time()
-print(f'실행시간 : {e - s}초')
